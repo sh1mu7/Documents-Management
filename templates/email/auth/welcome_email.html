@@ -1,0 +1,9 @@
+{% extends 'email/base.html' %}
+{% load static %}
+{% block emailheader %}
+    <img class="mx-auto d-block" src="{% static 'assets/img/email/new-product.png' %}" alt="at-new-product icon">
+    <h3 class="text-center">Congratulations<br><span>Your Account is Registered!</span></h3>
+{% endblock %}
+{% block emailbody %}
+    <h1>Your verification code is: {{data}}</h1>
+{% endblock %}
