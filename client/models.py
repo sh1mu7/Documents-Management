@@ -12,19 +12,10 @@ class DocumentType(BaseModel):
         return self.name
 
 
-class Client(BaseModel):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    required_documents = models.ManyToManyField(DocumentType, related_name='documents_types')
-    approval_status = models.IntegerField(choices=constants.ApprovalStatus.choices,
-                                          default=constants.ApprovalStatus.PENDING)
-
-    def __str__(self):
-        return self.user.get_full_name
-
-
 class ClientDocument(BaseModel):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='client_documents')
+    client = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='client_documents')
     file = models.ForeignKey('coreapp.Document', on_delete=models.CASCADE, related_name='client_file')
+    document_type = models.ForeignKey(DocumentType, on_delete=models.CASCADE, null=True)
     approval_status = models.IntegerField(choices=constants.ApprovalStatus.choices,
                                           default=constants.ApprovalStatus.PENDING)
     expiry_date = models.DateField(null=True)

@@ -3,7 +3,9 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils.functional import cached_property
-from coreapp import constants
+from client import constants as client_constant
+from client.models import DocumentType
+from coreapp import constants, roles
 from coreapp.manager import MyUserManager
 from .base import BaseModel
 
@@ -16,6 +18,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     dob = models.DateField(null=True)
     image = models.ForeignKey('coreapp.Document', on_delete=models.SET_NULL, null=True, blank=True)
     gender = models.SmallIntegerField(choices=constants.GenderChoices.choices, default=constants.GenderChoices.MALE)
+    required_documents = models.ManyToManyField(DocumentType, related_name='documents_types', null=True)
+    approval_status = models.IntegerField(choices=client_constant.ApprovalStatus.choices,
+                                          default=client_constant.ApprovalStatus.PENDING, null=True)
+    role = models.IntegerField(choices=roles.UserRoles.choices, default=roles.UserRoles.CLIENT)
+
     is_verified = models.BooleanField(default=False)
     is_approved = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

@@ -59,6 +59,7 @@ class LoginView(APIView):
                     'last_name': user.last_name,
                     'image': user.get_image_url,
                     'gender': user.gender,
+                    'role': user.role,
                     'is_approved': user.is_approved,
                     'is_verified': user.is_verified
                 }

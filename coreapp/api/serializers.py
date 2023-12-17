@@ -134,8 +134,9 @@ class ProfileSerializer(serializers.ModelSerializer):
             'ssn',
             'image',
             'image_url',
+            'role'
         )
-        read_only_fields = ('id', 'email', 'ssn')
+        read_only_fields = ('id', 'email', 'ssn', 'role')
 
 
 class DocumentSerializer(serializers.ModelSerializer):

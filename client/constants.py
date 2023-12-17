@@ -10,6 +10,7 @@ class ApprovalStatus(IntegerChoices):
 
 
 class StatusType(IntegerChoices):
-    APPROVE = 0, _('Approve')
-    REJECT = 1, _('reject')
-    PENDING = 2, _('Pending')
+    PENDING = 0, _('Pending')
+    APPROVED = 1, _('Approve')
+    REJECTED = 2, _('reject')
+
