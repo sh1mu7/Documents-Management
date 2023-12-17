@@ -17,4 +17,39 @@ PyYAML==6.0.1
 referencing==0.32.0
 rpds-py==0.13.2
 sqlparse==0.4.4
+typing_extensions==4.9.0
 uritemplate==4.1.1
+
+
+
+
+
+server{
+    listen 80;
+    server_name cognix.tech;
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/doc_management/backend/backend;
+    }
+    location /media/ {
+        root /home/doc_management/backend/backend;
+    }
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/doc_management.sock;
+    }
+}
+
+
+
+[Unit]
+Description=doc_management daemon
+Requires=doc_management.socket
+After=network.target
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/home/doc_management/backend
+ExecStart=/home/doc_management/backend/venv/bin/gunicorn Config.wsgi:application -w 2 --bind unix:/run/doc_management.sock --access-logfile -
+[Install]
+WantedBy=multi-user.target

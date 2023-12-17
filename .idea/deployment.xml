@@ -5,7 +5,7 @@
       <paths name="docs_management">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/doc_management" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/doc_management/backend" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

@@ -80,10 +80,9 @@ class AdminClientDocumentsAPI(viewsets.GenericViewSet, mixins.ListModelMixin, mi
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @extend_schema(request=None)
-    @action(detail=False, methods=['get'], url_path='mark_all_approved/(?P<client_id>)')
+    @action(detail=False, methods=['get'], url_path='(?P<client_id>[^/.]+)/mark_all_approved')
     def mark_all_approve(self, request, client_id):
         client_documents = ClientDocument.objects.filter(client_id=client_id)
-
         for document in client_documents:
             document.approval_status = constants.ApprovalStatus.APPROVED
             document.status = constants.StatusType.APPROVED
