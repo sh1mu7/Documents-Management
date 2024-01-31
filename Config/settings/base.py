@@ -41,8 +41,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -140,9 +140,18 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 AUTH_USER_MODEL = 'coreapp.User'
 
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    'https://kyc.cognix.tech',
+    "https://kyc-backend.cognix.tech"
+]
 CSRF_TRUSTED_ORIGINS = [
     'https://*.*',
+    "http://localhost:3000",
+    'https://kyc.cognix.tech',
+    "https://kyc-backend.cognix.tech"
 ]
+
 MEDIA_HOST = config('MEDIA_HOST')
 
 # Email (Email settings)

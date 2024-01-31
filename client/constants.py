@@ -12,5 +12,5 @@ class ApprovalStatus(IntegerChoices):
 class StatusType(IntegerChoices):
     PENDING = 0, _('Pending')
     APPROVED = 1, _('Approve')
-    REJECTED = 2, _('reject')
+    REJECTED = 2, _('Reject')
 

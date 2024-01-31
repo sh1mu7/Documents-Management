@@ -8,6 +8,9 @@ class DocumentType(BaseModel):
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
 
+    def get_title(self):
+        return self.name
+
     def __str__(self):
         return self.name
 
@@ -24,6 +27,12 @@ class ClientDocument(BaseModel):
 
     def get_file_url(self):
         return self.file.get_url
+
+    def get_client_name(self):
+        return self.client.get_full_name
+
+    def get_document_title(self):
+        return self.document_type
 
     def __str__(self):
         return f'{self.client} - {self.file.get_url}'

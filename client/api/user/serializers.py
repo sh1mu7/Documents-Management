@@ -1,3 +1,5 @@
+import os
+
 from rest_framework import serializers
 
 from coreapp.models import User
@@ -5,15 +7,12 @@ from ...models import ClientDocument, DocumentType
 
 
 class ClientDocumentSerializer(serializers.ModelSerializer):
+    document_type_name = serializers.CharField(source='get_document_title', read_only=True)
+    file_url = serializers.CharField(source='get_file_url', read_only=True)
+
     class Meta:
         model = ClientDocument
         exclude = ('client',)
-
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        if instance.reject_reason is None:
-            representation.pop('reject_reason', None)
-        return representation
 
 
 class UploadDocumentSerializer(serializers.ModelSerializer):
@@ -44,8 +43,7 @@ class ClientProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'id', 'first_name', 'last_name', 'image', 'image_url', 'dob', 'gender', 'ssn', 'role', 'approval_status'
-        )
+            'id', 'first_name', 'last_name', 'image', 'image_url', 'dob', 'gender', 'ssn', 'role', 'approval_status')
         read_only_fields = ('email', 'ssn', 'approval_status', 'role')
 
 

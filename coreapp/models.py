@@ -1,3 +1,5 @@
+import os
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -75,3 +77,9 @@ class Document(BaseModel):
     @cached_property
     def get_url(self):
         return f"{settings.MEDIA_HOST}{self.document.url}"
+
+    def get_file_name(self):
+        return os.path.basename(self.document.name)
+
+    def get_file_path(self):
+        return self.document.path

@@ -12,25 +12,28 @@ from ...constants import ApprovalStatus, StatusType
 from ...models import DocumentType, ClientDocument
 from rest_framework.permissions import IsAdminUser, IsAdminUser
 from .serializers import DocumentTypeSerializer, AdminClientSerializer, AdminClientApprovalStatusChangeSerializer, \
-    AdminClientDocumentApprovalSerializer, AdminAddClientDocumentSerializer, AdminClientListSerializer
+    AdminClientDocumentApprovalSerializer, AdminAddClientDocumentSerializer, AdminClientListSerializer, \
+    AdminClientUpdateSerializer
 
 
 class AdminDocumentTypeAPI(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser, ]
     serializer_class = DocumentTypeSerializer
-    queryset = DocumentType.objects.all()
+    queryset = DocumentType.objects.all().order_by('-created_at')
 
 
 class AdminClientAPI(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser, ]
     serializer_class = AdminClientSerializer
-    queryset = User.objects.all()
+    queryset = User.objects.filter(role=1).order_by('-created_at')
     filter_backends = [dj_filter.DjangoFilterBackend]
     filterset_class = filters.AdminClientFilter
 
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return AdminClientListSerializer
+        elif self.action == 'update':
+            return AdminClientUpdateSerializer
         return self.serializer_class
 
     @extend_schema(request=AdminClientApprovalStatusChangeSerializer)
@@ -54,7 +57,7 @@ class AdminClientDocumentsAPI(viewsets.GenericViewSet, mixins.ListModelMixin, mi
                               mixins.DestroyModelMixin):
     permission_classes = [IsAdminUser, ]
     serializer_class = AdminAddClientDocumentSerializer
-    queryset = ClientDocument.objects.all()
+    queryset = ClientDocument.objects.all().order_by('-created_at')
 
     @extend_schema(request=AdminClientDocumentApprovalSerializer)
     @action(detail=True, methods=['post'], url_path='change_document_status')
